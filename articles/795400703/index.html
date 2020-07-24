@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="兴微">
+  <meta name="keywords" content="">
+  <title>Windows下基于Python+Pytorch的深度学习环境的配置 - 兴微</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>兴与微言，以相感动</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+                Windows下基于Python+Pytorch的深度学习环境的配置
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-07-24 19:19">
+      2020年7月24日 晚上
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="windows下基于pythonpytorch的深度学习环境的配置"><a class="markdownIt-Anchor" href="#windows下基于pythonpytorch的深度学习环境的配置"></a> Windows下基于Python+Pytorch的深度学习环境的配置</h1>
+<h2 id="使用必读"><a class="markdownIt-Anchor" href="#使用必读"></a> <strong>使用必读</strong></h2>
+<ol>
+<li>本机系统：win10</li>
+<li>环境配置如果是从零开始按本教程配置即可，若是只配置（安装）单个阶段，请注意<strong>依赖关系</strong></li>
+<li>电脑里一般都有NVIDA的驱动，我是在安装CUDA或者CUDNN后，验证CUDNN安装失败，又发现在桌面右键NVIDA控制面板不见了，故而重新安装了NVIDA驱动，解决了问题。</li>
+<li>若电脑中无NVIDA驱动，建议先安装驱动，这样方便安装对应版本的CUDA</li>
+</ol>
+<h2 id="配置python"><a class="markdownIt-Anchor" href="#配置python"></a> <strong>配置python</strong></h2>
+<ol>
+<li>Windows store搜索python下载即可</li>
+</ol>
+<h2 id="安装cuda"><a class="markdownIt-Anchor" href="#安装cuda"></a> <strong>安装CUDA</strong></h2>
+<ol>
+<li>
+<p>查看电脑的驱动程序版本</p>
+<ol>
+<li>
+<p>在桌面右键，打开<code>NVDIA</code>控制面板</p>
+</li>
+<li>
+<p>点击左下角系统信息，查看驱动程序版本，如图。</p>
+<p><img src="https://i.loli.net/2020/07/09/OFeLdv5wCzgthuS.png" srcset="/img/loading.gif" alt="https://i.loli.net/2020/07/09/OFeLdv5wCzgthuS.png" /></p>
+</li>
+</ol>
+</li>
+<li>
+<p>选择合适<code>CUDA</code>版本，如下图，或<a href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html" target="_blank" rel="noopener">见此</a></p>
+<p><img src="https://i.loli.net/2020/07/09/OdvgqF8fnpCsS2r.png" srcset="/img/loading.gif" alt="https://i.loli.net/2020/07/09/OdvgqF8fnpCsS2r.png" /></p>
+</li>
+<li>
+<p>下载并安装，<a href="https://developer.nvidia.com/cuda-toolkit-archive" target="_blank" rel="noopener">下载地址</a>，网速还行就选<code>network</code>版吧</p>
+<ol>
+<li><strong>注</strong>：安装时选择自定义，并<strong>不勾选</strong> <code>visual studio integration</code>，这是vs的一个扩展，网上很多人说安装整个话可<strong>能会失败</strong>，所有选择不安装保险一些，日后需要使用时再安装</li>
+</ol>
+</li>
+<li>
+<p>验证安装是否成功</p>
+<ol>
+<li>
+<p>打开Terminal，输入<code>nvcc -V</code>,如图所示，即安装成功</p>
+<p><img src="https://i.loli.net/2020/07/09/NK6uCYTByzjl8nD.png" srcset="/img/loading.gif" alt="https://i.loli.net/2020/07/09/NK6uCYTByzjl8nD.png" /></p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="cudnn安装"><a class="markdownIt-Anchor" href="#cudnn安装"></a> <strong>CUDNN安装</strong></h2>
+<ol>
+<li>
+<p>下载文件，<a href="https://developer.nvidia.com/cudnn" target="_blank" rel="noopener">见此</a>,需注册并填写问卷</p>
+</li>
+<li>
+<p>解压，得到如下文件</p>
+<p><img src="https://i.loli.net/2020/07/10/YUz5423oCTGBKFZ.png" srcset="/img/loading.gif" alt="https://i.loli.net/2020/07/10/YUz5423oCTGBKFZ.png" /></p>
+</li>
+<li>
+<p>将这些文件，复制到CUDA的安装目录(<code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2</code>),<strong>版本号</strong>按自己的情况修改。</p>
+</li>
+<li>
+<p>验证是否安装成功(两个都运行一下吧)</p>
+<ol>
+<li>进入<code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\extras</code>文件夹，在此处打开Terminal
+<ol>
+<li>
+<p>运行<code>bandwidthTest.exe</code>, <code>result=pass</code>即代表成功</p>
+<p><img src="https://i.loli.net/2020/07/10/xJt6galAp873BVi.png" srcset="/img/loading.gif" alt="https://i.loli.net/2020/07/10/xJt6galAp873BVi.png" /></p>
+</li>
+<li>
+<p>运行<code>deviceQuery.exe</code>,<code>result=pass</code>即代表成功</p>
+<p><img src="https://i.loli.net/2020/07/10/32ynGJU8HCuljLz.png" srcset="/img/loading.gif" alt="https://i.loli.net/2020/07/10/32ynGJU8HCuljLz.png" /></p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="nvdia驱动安装"><a class="markdownIt-Anchor" href="#nvdia驱动安装"></a> <strong>NVDIA驱动安装</strong></h2>
+<ol>
+<li>
+<p>下载驱动程序,<a href="https://www.nvidia.cn/Download/index.aspx?lang=cnhttps://www.nvidia.cn/Download/index.aspx?lang=cn" target="_blank" rel="noopener">见此</a>，选择合适的版本，注意产品系列一般都是Series，而不是notebook</p>
+<p><img src="https://i.loli.net/2020/07/10/B5cwaoqmsJT3x8f.png" srcset="/img/loading.gif" alt="https://i.loli.net/2020/07/10/B5cwaoqmsJT3x8f.png" /></p>
+</li>
+<li>
+<p>下载完，安装即可。</p>
+</li>
+<li>
+<p>验证，此时在桌面单击鼠标右键，应又NVDIA控制面板的选项，另进入<code>C:\Program Files\NVIDIA Corporation\NVSMI</code>文件夹，打开Terminal运行<code>nvidia-smi.exe</code>,如图所示即可。</p>
+<p><img src="https://i.loli.net/2020/07/10/adhbyfCpjzqOMiJ.png" srcset="/img/loading.gif" alt="https://i.loli.net/2020/07/10/adhbyfCpjzqOMiJ.png" /></p>
+</li>
+</ol>
+<h2 id="安装anaconda修改powershell配置"><a class="markdownIt-Anchor" href="#安装anaconda修改powershell配置"></a> <strong>安装Anaconda+修改powershell配置</strong></h2>
+<ol>
+<li>
+<p><a href="https://www.anaconda.com/products/individual" target="_blank" rel="noopener">下载</a></p>
+</li>
+<li>
+<p>安装，建议勾选将Anaconda添加到<strong>环境变量</strong></p>
+</li>
+<li>
+<p>打开Terminal(powershell)，输入conda -V`,如图所示，即安装成功(不行的话，重启电脑就欧克了)</p>
+<p><img src="https://i.loli.net/2020/07/09/dgWTlJSAu7DkQcL.png" srcset="/img/loading.gif" alt="https://i.loli.net/2020/07/09/dgWTlJSAu7DkQcL.png" /></p>
+</li>
+<li>
+<p>配置powershell（必须要配置，要不然不显示当前虚拟环境，以及无法激活虚拟环境）</p>
+<ol>
+<li>
+<p>更改powershell的执行策略</p>
+<ol>
+<li>
+<p>以管理员权限打开powershell，键入<code>set-executionpolicy remotesigned</code>,输入Y即可。</p>
+<p><img src="https://i.loli.net/2020/07/09/NDfjn5qvYtKWLEy.png" srcset="/img/loading.gif" alt="https://i.loli.net/2020/07/09/NDfjn5qvYtKWLEy.png" /></p>
+</li>
+</ol>
+</li>
+<li>
+<p>打开powershell，键入<code>conda init powershell</code>,再重启powershell即可</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="pytorch安装"><a class="markdownIt-Anchor" href="#pytorch安装"></a> <strong>Pytorch安装</strong></h2>
+<ol>
+<li>
+<p>在<a href="https://pytorch.org/" target="_blank" rel="noopener">官网</a>选择合适的版本</p>
+<p><img src="https://i.loli.net/2020/07/09/kbDZct8upzmi2gC.png" srcset="/img/loading.gif" alt="https://i.loli.net/2020/07/09/kbDZct8upzmi2gC.png" /></p>
+</li>
+<li>
+<p>打开Terminal，激活自己的conda环境，键入<code>Run this Command</code>所示的代码进行安装</p>
+</li>
+<li>
+<p>验证安装是否成功</p>
+<p><img src="https://i.loli.net/2020/07/10/Edt6xmHGSwPZigh.png" srcset="/img/loading.gif" alt="https://i.loli.net/2020/07/10/Edt6xmHGSwPZigh.png" /></p>
+</li>
+<li>
+<p>验证是否可以使用GPU进行训练</p>
+<ol>
+<li>
+<p>新建python文件，内容如下</p>
+ <pre><code class="hljs haskell">         <span class="hljs-keyword">import</span> torch
+         <span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn
+         <span class="hljs-keyword">import</span> torch.nn.functional <span class="hljs-keyword">as</span> F
+         <span class="hljs-keyword">import</span> torch.optim <span class="hljs-keyword">as</span> optim
+         from torchvision <span class="hljs-keyword">import</span> datasets, transforms
+         ​
+         <span class="hljs-type">BATCH_SIZE</span>=<span class="hljs-number">512</span> #大概需要<span class="hljs-number">2</span>G的显存
+         <span class="hljs-type">EPOCHS</span>=<span class="hljs-number">20</span> # 总共训练批次
+         <span class="hljs-type">DEVICE</span> = torch.device(<span class="hljs-string">"cuda"</span> <span class="hljs-keyword">if</span> torch.cuda.is_available() <span class="hljs-keyword">else</span> <span class="hljs-string">"cpu"</span>)
+         ​
+         train_loader = torch.utils.<span class="hljs-class"><span class="hljs-keyword">data</span>.<span class="hljs-type">DataLoader</span>(</span>
+<span class="hljs-class">                 <span class="hljs-title">datasets</span>.<span class="hljs-type">MNIST</span>('<span class="hljs-title">data'</span>, <span class="hljs-title">train</span>=<span class="hljs-type">True</span>, <span class="hljs-title">download</span>=<span class="hljs-type">True</span>, </span>
+<span class="hljs-class">                                <span class="hljs-title">transform</span>=<span class="hljs-title">transforms</span>.<span class="hljs-type">Compose</span>([</span>
+<span class="hljs-class">                                    <span class="hljs-title">transforms</span>.<span class="hljs-type">ToTensor</span>(),</span>
+                                    transforms.<span class="hljs-type">Normalize</span>((<span class="hljs-number">0.1307</span>,), (<span class="hljs-number">0.3081</span>,))
+                                ])),
+                 batch_size=<span class="hljs-type">BATCH_SIZE</span>, shuffle=<span class="hljs-type">True</span>)
+         ​
+         test_loader = torch.utils.<span class="hljs-class"><span class="hljs-keyword">data</span>.<span class="hljs-type">DataLoader</span>(</span>
+<span class="hljs-class">                 <span class="hljs-title">datasets</span>.<span class="hljs-type">MNIST</span>('<span class="hljs-title">data'</span>, <span class="hljs-title">train</span>=<span class="hljs-type">False</span>, <span class="hljs-title">transform</span>=<span class="hljs-title">transforms</span>.<span class="hljs-type">Compose</span>([</span>
+<span class="hljs-class">                                    <span class="hljs-title">transforms</span>.<span class="hljs-type">ToTensor</span>(),</span>
+                                    transforms.<span class="hljs-type">Normalize</span>((<span class="hljs-number">0.1307</span>,), (<span class="hljs-number">0.3081</span>,))
+                                ])),
+                 batch_size=<span class="hljs-type">BATCH_SIZE</span>, shuffle=<span class="hljs-type">True</span>)
+         ​
+<span class="hljs-class">         <span class="hljs-keyword">class</span> <span class="hljs-type">ConvNet</span>(<span class="hljs-title">nn</span>.<span class="hljs-type">Module</span>):</span>
+<span class="hljs-class">             def __init__(<span class="hljs-title">self</span>):</span>
+<span class="hljs-class">                 super().__init__()</span>
+<span class="hljs-class">                 # batch*1*28*28（每次会送入batch个样本，输入通道数1（黑白图像），图像分辨率是28x28）</span>
+<span class="hljs-class">                 # 下面的卷积层<span class="hljs-type">Conv2d</span>的第一个参数指输入通道数，第二个参数指输出通道数，第三个参数指卷积核的大小</span>
+<span class="hljs-class">                 self.conv1 = nn.<span class="hljs-type">Conv2d</span>(1, 10, 5) # 输入通道数1，输出通道数10，核的大小5</span>
+<span class="hljs-class">                 self.conv2 = nn.<span class="hljs-type">Conv2d</span>(10, 20, 3) # 输入通道数10，输出通道数20，核的大小3</span>
+<span class="hljs-class">                 # 下面的全连接层<span class="hljs-type">Linear</span>的第一个参数指输入通道数，第二个参数指输出通道数</span>
+<span class="hljs-class">                 self.fc1 = nn.<span class="hljs-type">Linear</span>(20*10*10, 500) # 输入通道数是2000，输出通道数是500</span>
+<span class="hljs-class">                 self.fc2 = nn.<span class="hljs-type">Linear</span>(500, 10) # 输入通道数是500，输出通道数是10，即10分类</span>
+<span class="hljs-class">             def forward(<span class="hljs-title">self</span>,<span class="hljs-title">x</span>):</span>
+<span class="hljs-class">                 in_size = x.size(0) # 在本例中in_size=512，也就是<span class="hljs-type">BATCH_SIZE</span>的值。输入的x可以看成是512*1*28*28的张量。</span>
+<span class="hljs-class">                 out = self.conv1(<span class="hljs-title">x</span>) # batch*1*28*28 -&gt; batch*10*24*24（28x28的图像经过一次核为5x5的卷积，输出变为24x24）</span>
+<span class="hljs-class">                 out = <span class="hljs-type">F</span>.relu(<span class="hljs-title">out</span>) # batch*10*24*24（激活函数<span class="hljs-type">ReLU</span>不改变形状））</span>
+<span class="hljs-class">                 out = <span class="hljs-type">F</span>.max_pool2d(<span class="hljs-title">out</span>, 2, 2) # batch*10*24*24 -&gt; batch*10*12*12（2*2的池化层会减半）</span>
+<span class="hljs-class">                 out = self.conv2(<span class="hljs-title">out</span>) # batch*10*12*12 -&gt; batch*20*10*10（再卷积一次，核的大小是3）</span>
+<span class="hljs-class">                 out = <span class="hljs-type">F</span>.relu(<span class="hljs-title">out</span>) # batch*20*10*10</span>
+<span class="hljs-class">                 out = out.view(<span class="hljs-title">in_size</span>, -1) # batch*20*10*10 -&gt; batch*2000（out的第二维是-1，说明是自动推算，本例中第二维是20*10*10）</span>
+<span class="hljs-class">                 out = self.fc1(<span class="hljs-title">out</span>) # batch*2000 -&gt; batch*500</span>
+<span class="hljs-class">                 out = <span class="hljs-type">F</span>.relu(<span class="hljs-title">out</span>) # batch*500</span>
+<span class="hljs-class">                 out = self.fc2(<span class="hljs-title">out</span>) # batch*500 -&gt; batch*10</span>
+<span class="hljs-class">                 out = <span class="hljs-type">F</span>.log_softmax(<span class="hljs-title">out</span>, <span class="hljs-title">dim</span>=1) # 计算log(<span class="hljs-title">softmax</span>(<span class="hljs-title">x</span>))</span>
+<span class="hljs-class">                 return out</span>
+<span class="hljs-class">         ​</span>
+<span class="hljs-class">         ​</span>
+<span class="hljs-class">         model = <span class="hljs-type">ConvNet</span>().to(<span class="hljs-type">DEVICE</span>)</span>
+<span class="hljs-class">         optimizer = optim.<span class="hljs-type">Adam</span>(<span class="hljs-title">model</span>.<span class="hljs-title">parameters</span>())</span>
+<span class="hljs-class">         ​</span>
+<span class="hljs-class">         def train(<span class="hljs-title">model</span>, <span class="hljs-title">device</span>, <span class="hljs-title">train_loader</span>, <span class="hljs-title">optimizer</span>, <span class="hljs-title">epoch</span>):</span>
+<span class="hljs-class">             model.train()</span>
+<span class="hljs-class">             for batch_idx, (<span class="hljs-title">data</span>, <span class="hljs-title">target</span>) in enumerate(<span class="hljs-title">train_loader</span>):</span>
+<span class="hljs-class">                 data, target = data.to(<span class="hljs-title">device</span>), target.to(<span class="hljs-title">device</span>)</span>
+<span class="hljs-class">                 optimizer.zero_grad()</span>
+<span class="hljs-class">                 output = model(<span class="hljs-title">data</span>)</span>
+<span class="hljs-class">                 loss = <span class="hljs-type">F</span>.nll_loss(<span class="hljs-title">output</span>, <span class="hljs-title">target</span>)</span>
+<span class="hljs-class">                 loss.backward()</span>
+<span class="hljs-class">                 optimizer.step()</span>
+<span class="hljs-class">                 if(<span class="hljs-title">batch_idx</span>+1)%30 == 0: </span>
+<span class="hljs-class">                     print('<span class="hljs-type">Train</span> <span class="hljs-type">Epoch</span>: &#123;&#125; [&#123;&#125;/&#123;&#125; (&#123;:.0<span class="hljs-title">f</span>&#125;%)]\tLoss: &#123;:.6f&#125;'.format(</span>
+<span class="hljs-class">                         <span class="hljs-title">epoch</span>, <span class="hljs-title">batch_idx</span> * <span class="hljs-title">len</span>(<span class="hljs-title">data</span>), len(<span class="hljs-title">train_loader</span>.<span class="hljs-title">dataset</span>),</span>
+<span class="hljs-class">                         100. * batch_idx / len(<span class="hljs-title">train_loader</span>), loss.item()))</span>
+<span class="hljs-class">         ​</span>
+<span class="hljs-class">         ​</span>
+<span class="hljs-class">         def test(<span class="hljs-title">model</span>, <span class="hljs-title">device</span>, <span class="hljs-title">test_loader</span>):</span>
+<span class="hljs-class">             model.eval()</span>
+<span class="hljs-class">             test_loss = 0</span>
+<span class="hljs-class">             correct = 0</span>
+<span class="hljs-class">             with torch.no_grad():</span>
+<span class="hljs-class">                 for data, target in test_loader:</span>
+<span class="hljs-class">                     data, target = data.to(<span class="hljs-title">device</span>), target.to(<span class="hljs-title">device</span>)</span>
+<span class="hljs-class">                     output = model(<span class="hljs-title">data</span>)</span>
+<span class="hljs-class">                     test_loss += <span class="hljs-type">F</span>.nll_loss(<span class="hljs-title">output</span>, <span class="hljs-title">target</span>, <span class="hljs-title">reduction</span>='<span class="hljs-title">sum'</span>).item() # 将一批的损失相加</span>
+<span class="hljs-class">                     pred = output.max(1, <span class="hljs-title">keepdim</span>=<span class="hljs-type">True</span>)[1] # 找到概率最大的下标</span>
+<span class="hljs-class">                     correct += pred.eq(<span class="hljs-title">target</span>.<span class="hljs-title">view_as</span>(<span class="hljs-title">pred</span>)).sum().item()</span>
+<span class="hljs-class">         ​</span>
+<span class="hljs-class">             test_loss /= len(<span class="hljs-title">test_loader</span>.<span class="hljs-title">dataset</span>)</span>
+<span class="hljs-class">             print('\<span class="hljs-title">nTest</span> <span class="hljs-title">set</span>: <span class="hljs-type">Average</span> <span class="hljs-title">loss</span>: &#123;:.4<span class="hljs-title">f</span>&#125;, <span class="hljs-type">Accuracy</span>: &#123;&#125;/&#123;&#125; (&#123;:.0<span class="hljs-title">f</span>&#125;%)\n'.format(</span>
+<span class="hljs-class">                 <span class="hljs-title">test_loss</span>, <span class="hljs-title">correct</span>, <span class="hljs-title">len</span>(<span class="hljs-title">test_loader</span>.<span class="hljs-title">dataset</span>),</span>
+<span class="hljs-class">                 100. * correct / len(<span class="hljs-title">test_loader</span>.<span class="hljs-title">dataset</span>)))</span>
+<span class="hljs-class">         ​</span>
+<span class="hljs-class">         for epoch in range(1, <span class="hljs-type">EPOCHS</span> + 1):</span>
+<span class="hljs-class">             train(<span class="hljs-title">model</span>, <span class="hljs-type">DEVICE</span>, <span class="hljs-title">train_loader</span>, <span class="hljs-title">optimizer</span>, <span class="hljs-title">epoch</span>)</span>
+<span class="hljs-class">             test(<span class="hljs-title">model</span>, <span class="hljs-type">DEVICE</span>, <span class="hljs-title">test_loader</span>)</span></code></pre>
+</li>
+<li>
+<p>在装有pytorch的环境下运行该文件，当其到达train阶段时（如图1），在<code>C:\Program Files\NVIDIA Corporation\NVSMI</code>文件夹，打开Terminal运行<code>nvidia-smi.exe</code>,如图2所示即成功。</p>
+<p><img src="https://i.loli.net/2020/07/10/Hpq9TaBchwO6noS.png" srcset="/img/loading.gif" alt="https://i.loli.net/2020/07/10/Hpq9TaBchwO6noS.png" /></p>
+<p><img src="https://i.loli.net/2020/07/10/vdOZtI9sPDriVJq.png" srcset="/img/loading.gif" alt="https://i.loli.net/2020/07/10/vdOZtI9sPDriVJq.png" /></p>
+</li>
+</ol>
+</li>
+</ol>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E9%85%8D%E7%BD%AE/">配置</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%85%8D%E7%BD%AE/">配置</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Pytorch/">Pytorch</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Anaconda/">Anaconda</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/articles/1243066710/">
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    function loadValine() {
+      addScript('https://cdn.staticfile.org/valine/1.4.14/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "mEoJbmoJplmmj4JvYmejBSKR-gzGzoHsz",
+          app_key: "YnxnzjueYS7SjDxG0A43qTTq",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "https://meojbmoj.lc-cn-n1-shared.com",
+        });
+      });
+    }
+    createObserver(loadValine, 'vcomments');
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://valine.js.org" target="_blank" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <!-- Baidu Analytics -->
+    <script defer>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?a650df59ed0e06ab197026fece510927";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+    <!-- Google Analytics -->
+    <script defer>
+      (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+      ga('create', 'UA-173480879-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+</body>
+</html>
